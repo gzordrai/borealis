@@ -42,9 +42,9 @@ if (!command) return;
 //Args part
 //Verify if the command take an argument and if the argument has been declared
 if (command.args && !args.length) {
-    let reply = `Vous n'avez fourni aucun argument !`;
+    let reply = `No arguments were provided !`;
     if (command.usage) {
-    reply += `\nLa bonne utilisation serait: \`${prefix}${command.name} ${command.usage}\``;
+    reply += `\n The correct usage would be : \`${prefix}${command.name} ${command.usage}\``;
     }
     return message.channel.send(reply);
 }
@@ -54,7 +54,7 @@ try {
     command.execute(message, args)
 } catch (error) {
     console.error(error);
-    message.reply("Une erreur est survenue pendant l'exécution de la commande ! Merci de bien vouloir contacter un responsable");
+    message.reply("An error occurred while executing the command! Please contact a manager");
 }
 });
 
