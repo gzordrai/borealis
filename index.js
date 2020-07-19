@@ -9,9 +9,10 @@ bot = {
     fs: fs,
     Discord: Discord,
     client: client,
-    config: { prefix } = require('./config/config.js'),
+    config: { token, prefix } = require('./config/config.js'),
     data: JSON.parse(fs.readFileSync('./data/database.json', 'utf8')),
     dbManager: require('./src/utils/dbManager.js'),
+    ticketManager: require('./src/utils/ticketManager.js'),
     items: require('./data/items.json')
 }
 
@@ -37,6 +38,8 @@ if (!message.content.startsWith(prefix) ||
 const args = message.content.slice(prefix.length).split(' ');
 const commandName = args.shift().toLowerCase();
 
+if (commandName === 'contact' && message.channel.type === 'dm')
+    return bot.ticketManager.add(message);
 //Aliases part
 //Verify if the command has been declared or if an command alias is included
 const command = client.commands.get(commandName) ||
