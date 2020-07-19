@@ -5,12 +5,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-init = {
+bot = {
+    fs: fs,
     Discord: Discord,
     client: client,
-    config: { token, prefix } = require('./config/config.js'),
+    config: { prefix } = require('./config/config.js'),
     data: JSON.parse(fs.readFileSync('./data/database.json', 'utf8')),
-    db: require('./src/utils/db.js'),
+    dbManager: require('./src/utils/dbManager.js'),
     items: require('./data/items.json')
 }
 
