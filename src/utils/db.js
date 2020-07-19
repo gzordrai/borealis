@@ -1,11 +1,14 @@
+const { italics } = require("../../config/token");
+
 module.exports.user = {
 
     register: (userID) => {
         init.data.users[userID] = {
             balance: 100,
             cooldowns: {},
-            items: {}
+            items: []
         }
+        init.db.write();
     },
 
     isValidAccount: (userID) => {
@@ -14,13 +17,21 @@ module.exports.user = {
         return true;
     },
 
+    write: () => {
+        fs.writeFileSync('./data/database.json', JSON.stringify(data, null, 4), err => {
+            if (err) throw err;
+        })
+    },
+
     balance: {
         add: (userID, amount) => {
-            if(init.data.users[userID] === undefined)
+            let user = init.data.users[userID];
+            if(user === undefined)
                 return;
             if(typeof amount !== 'number')
                 return;
-            init.data.users[userID].balance += amount;
+            user.balance += amount;
+            init.db.write();
         },
 
         show: (userID) => {
@@ -33,23 +44,17 @@ module.exports.user = {
     },
 
     items: {
-        add: (userID, name, number, statut) => {
-            if(init.data.users[userID] === undefined)
-                return;
-            if(typeof name !== 'string')
-                return;
-            if(typeof number !== 'number')
-                return;
-            if(typeof statut !== 'string')
-                return;
-            if(init.data.users[userID].items[name] === undefined) {
-                init.data.users[userID].items[name] = {
-                    number: number,
-                    statut: statut,
+        add: (userID, name, status, number) => {
+
+            let items = init.data.users[userID].items[name];
+            if(items === undefined){
+                items = {
+                    raw: 0,
+                    refined: 0
                 }
-            } else {
-                init.data.users[userID].items[name].number += number
             }
+            items[status] += number;
+            init.db.write();
         }
     }
 }

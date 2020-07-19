@@ -6,9 +6,12 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 init = {
+    Discord: Discord,
+    client: client,
     config: { token, prefix } = require('./config/config.js'),
     data: JSON.parse(fs.readFileSync('./data/database.json', 'utf8')),
     db: require('./src/utils/db.js'),
+    items: require('./data/items.json')
 }
 
 const commandFiles = fs.readdirSync('./src/commands/').filter(file => file.endsWith('.js'));
