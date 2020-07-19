@@ -12,7 +12,7 @@ module.exports = {
         let coinEmoji = bot.client.guilds.cache.get('733993285323980810').emojis.cache.get(bot.items.coin);
         let embed = new bot.Discord.MessageEmbed()
         .setColor('BLUE')
-        .setFooter(`ui`)
+        .setFooter(`Please contact the bot by private message if you encounter a problem`)
 
         if(bot.dbManager.user.isValidAccount(authorID))
             return message.channel.send('You already have an account !');
