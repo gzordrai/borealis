@@ -1,6 +1,5 @@
 module.exports = {
     name: 'help',
-    description: "Allows you to recover an average amount of coins ",
 
     execute(message, args) {
 
