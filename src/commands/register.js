@@ -1,6 +1,6 @@
 module.exports = {
     name: 'register',
-    description: 'Vous permet de créer un compte',
+    description: 'Allows you to create an account',
     aliases: ['archives', 'log', 'record', 'annals'],
 
     execute: (message) => {
