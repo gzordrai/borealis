@@ -17,8 +17,7 @@ module.exports = {
         },
     
         isValidAccount: (userID) => {
-            if(bot.data.users[userID] === undefined)
-                return false;
+            if(!bot.data.users[userID]) return false;
             return true;
         },
 
@@ -28,13 +27,13 @@ module.exports = {
                 bot.dbManager.write();
             },
     
-            show: (userID) => {
+            get: (userID) => {
                 return bot.data.users[userID].balance;
             }
         },
     
         cooldowns: {
-            isCooldownOver: (userID, cooldownType, cooldownTime) => {
+            isOver: (userID, cooldownType, cooldownTime) => {
                 let userCooldown = bot.data.users[userID].cooldowns[cooldownType];
                 if(userCooldown === undefined) {
                     bot.dbManager.user.cooldowns.update(userID, cooldownType);
@@ -77,16 +76,39 @@ module.exports = {
         },
     
         items: {
-            add: (userID, name, status, number) => {
-    
-                let item = bot.data.users[userID].items[name];
-                if(item === undefined){
-                    item = {
-                        raw: 0,
-                        refined: 0
-                    }
+
+            isValidItem: (type, item) => {
+                if(!bot.items[type][item]) return false;
+                return true;
+            },
+
+            add: (userID, type, name, number, status) => {
+                let user = bot.data.users[userID];
+                
+                switch(type) {
+                    case 'minerals':
+                        if(!user.items[name]) {
+                            user.items[name] = {
+                                raw: 0,
+                                refined: 0
+                            }
+                        }
+                        user.items[name][status] += number;
+                    break;
+                    case 'cards':
+                        if(!number){
+                            number = 1;
+                        }
+                        if(!user.items[name]) {
+                            user.items[name] = {
+                                number: 0,
+                                usage: 0
+                            }
+                        }
+                        user.items[name].number += number;
+                        user.items[name].usage += bot.items.cards[name].usage * number;
+                    break;
                 }
-                item[status] += number;
                 bot.dbManager.write();
             }
         }
