@@ -41,7 +41,7 @@ module.exports = {
                         return message.channel.send(`You don't have enough ${emojis.get(bot.items.coin)} to buy this`);
 
                     bot.dbManager.user.items.add(authorID, 'cards', rarety, number);
-                    bot.dbManager.user.balance.add(authorID, price);
+                    bot.dbManager.user.balance.add(authorID, -price);
                     message.channel.send(`${number}x ${rarety} card purchased successfully !`);
 
                 break;

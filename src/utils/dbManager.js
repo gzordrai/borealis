@@ -82,6 +82,17 @@ module.exports = {
                 return true;
             },
 
+            get: (userID) => {
+                let user = bot.data.users[userID];
+                let userItems = Object.keys(user.items);
+                let items = [];
+
+                userItems.forEach(item => {
+                    items.push([item, `x${user.items[item].number}, total usage: ${user.items[item].usage}`]);
+                })
+                return items;
+            },
+
             add: (userID, type, name, number, status) => {
                 let user = bot.data.users[userID];
                 
